@@ -9,12 +9,18 @@ class Person {
   }
 }
 
-const convertCMtoM = (cm) => {
-  return cm / 100;
-};
+const convertCMtoM = cm => cm / 100;
 
-const round = (num) => {
-  return Math.round(num);
+const round = num => Math.round(num);
+
+const convertImperialToMetric = person => {
+  const convertedPerson = {};
+  for (const metric in person) {
+    convertedPerson[metric] = person[metric];
+  }
+  convertedPerson.height = convertedPerson.height * 2.54;
+  convertedPerson.weight = convertedPerson.weight / 2.205;
+  return convertedPerson;
 };
 
 // Using the Mifflin-St Jeor Equation for BMR (metric)
@@ -35,8 +41,19 @@ const calculateBMI = (person) => {
 const maleMetrics = new Person(81.65, 190.5, 37, "man");
 const femaleMetrics = new Person(88.45, 170.18, 34, "woman");
 
-// console.log(calculateBMR(maleMetrics));
-// console.log(calculateBMR(femaleMetrics));
+const imperialMaleMetrics = new Person(180, 75, 37, "man");
+const imperialFemaleMetrics = new Person(195, 67, 34, "woman");
 
-console.log(calculateBMI(maleMetrics)); // => 22.5
-console.log(calculateBMI(femaleMetrics)); // => 30.5
+// TESTS for Metric measurements
+// console.log(calculateBMR(maleMetrics)); // => 1827
+// console.log(calculateBMR(femaleMetrics)); // => 1617
+
+// console.log(calculateBMI(maleMetrics)); // => 22.5
+// console.log(calculateBMI(femaleMetrics)); // => 30.5
+
+// TESTS for Imperial measurements
+console.log(calculateBMR(convertImperialToMetric(imperialMaleMetrics))); // => 1827
+console.log(calculateBMR(convertImperialToMetric(imperialFemaleMetrics))); // => 1617
+
+console.log(calculateBMI(convertImperialToMetric(imperialMaleMetrics))); // => 22.5
+console.log(calculateBMI(convertImperialToMetric(imperialFemaleMetrics))); // => 30.5
